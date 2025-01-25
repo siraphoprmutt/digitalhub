@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HUB Digital Menu</title>
+    <link
+      rel="icon"
+      href="https://siraphoprmutt.github.io/assets/favicon/favicon-32x32.png"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #f8f9fa;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .nav-pills .nav-item {
+        margin-right: 10px;
+      }
+
+      .nav-link {
+        color: #fff !important;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0.75;
+        border-radius: 8px;
+      }
+
+      .nav-link.active {
+        transform: scale(1.1);
+        opacity: 1;
+        font-weight: bold;
+      }
+
+      .card {
+        transition: all 0.3s ease-in-out;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease-in-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-title {
+        color: #007bff;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .btn-filter {
+        background: #343a40;
+        color: #fff;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <h1 class="text-center fw-bold mb-1">HUB Digital Menu</h1>
+      <h5 class="text-center fw-light mb-4">University Information System</h5>
+      <ul
+        class="nav nav-pills justify-content-center mb-4"
+        id="menuTabs"
+        role="tablist"
+      ></ul>
+      <div id="menuContent" class="row g-4 justify-content-center"></div>
+    </div>
+
+    <script>
+      const typeData = [
+        { id: 1, name: "นักศึกษา", color: "#007bff" },
+        { id: 2, name: "อาจารย์", color: "#28a745" },
+        { id: 3, name: "บุคลากร", color: "#ffc107" },
+        { id: 4, name: "บุคคลทั่วไป", color: "#dc3545" },
+      ];
+
+      const digitalData = [
+        {
+          id: 1,
+          name: "เมนูที่ 1",
+          description: "รายละเอียด 1",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 1,
+          active: true,
+        },
+        {
+          id: 2,
+          name: "เมนูที่ 2",
+          description: "รายละเอียด 2",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 2,
+          active: true,
+        },
+        {
+          id: 3,
+          name: "เมนูที่ 3",
+          description: "รายละเอียด 3",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 3,
+          active: true,
+        },
+        {
+          id: 4,
+          name: "เมนูที่ 4",
+          description: "รายละเอียด 4",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 4,
+          active: false,
+        },
+        {
+          id: 5,
+          name: "เมนูที่ 5",
+          description: "รายละเอียด 5",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 1,
+          active: true,
+        },
+        {
+          id: 6,
+          name: "เมนูที่ 6",
+          description: "รายละเอียด 6",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 2,
+          active: true,
+        },
+        {
+          id: 7,
+          name: "เมนูที่ 7",
+          description: "รายละเอียด 7",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 3,
+          active: true,
+        },
+        {
+          id: 8,
+          name: "เมนูที่ 8",
+          description: "รายละเอียด 8",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 4,
+          active: false,
+        },
+        {
+          id: 9,
+          name: "เมนูที่ 9",
+          description: "รายละเอียด 9",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 1,
+          active: true,
+        },
+        {
+          id: 10,
+          name: "เมนูที่ 10",
+          description: "รายละเอียด 10",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 2,
+          active: true,
+        },
+        {
+          id: 11,
+          name: "เมนูที่ 11",
+          description: "รายละเอียด 11",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 3,
+          active: true,
+        },
+        {
+          id: 12,
+          name: "เมนูที่ 12",
+          description: "รายละเอียด 12",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 4,
+          active: true,
+        },
+        {
+          id: 13,
+          name: "เมนูที่ 13",
+          description: "รายละเอียด 13",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 1,
+          active: true,
+        },
+        {
+          id: 14,
+          name: "เมนูที่ 14",
+          description: "รายละเอียด 14",
+          image: "https://placehold.co/300x100",
+          link: "https://placehold.co/300x100",
+          typeId: 2,
+          active: true,
+        },
+        {
+          id: 15,
+          name: "เมนูที่ 15",
+          description: "รายละเอียด 15",
+          image: "https://placehold.co/300x100",
+          //   link: "https://placehold.co/300x100",
+          typeId: 3,
+          active: true,
+        },
+      ];
+
+      const renderTabs = () => {
+        const menuTabs = document.getElementById("menuTabs");
+        menuTabs.innerHTML = "";
+
+        const allTab = `<li class="nav-item">
+          <button class="nav-link active btn-filter" data-type="all">ทั้งหมด</button>
+        </li>`;
+        menuTabs.insertAdjacentHTML("beforeend", allTab);
+
+        typeData.forEach((type) => {
+          const tab = `<li class="nav-item">
+            <button class="nav-link btn-filter" style="background:${type.color}" data-type="${type.id}">
+              ${type.name}
+            </button>
+          </li>`;
+          menuTabs.insertAdjacentHTML("beforeend", tab);
+        });
+      };
+
+      const renderMenu = (typeId) => {
+        const menuContent = document.getElementById("menuContent");
+        menuContent.innerHTML = "";
+
+        const filteredData = digitalData.filter(
+          (item) => item.active && (typeId === "all" || item.typeId == typeId)
+        );
+
+        filteredData.forEach((item) => {
+          const target = item?.target ?? "_blank";
+          const href = item?.link ? `href="${item.link}"` : "";
+          const card = `<div class="col-md-4">
+            <a ${href} target="${target}" class="text-decoration-none">
+              <div class="card text-center">
+                <img src="${item.image}" class="card-img-top" alt="${item.name}">
+                <div class="card-body">
+                  <h5 class="card-title">${item.name}</h5>
+                  <p class="card-text">${item.description}</p>
+                </div>
+              </div>
+            </a>
+          </div>`;
+          menuContent.insertAdjacentHTML("beforeend", card);
+        });
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderTabs();
+        renderMenu("all");
+        document.querySelectorAll(".btn-filter").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            document
+              .querySelectorAll(".nav-link")
+              .forEach((nav) => nav.classList.remove("active"));
+            this.classList.add("active");
+            renderMenu(this.getAttribute("data-type"));
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
