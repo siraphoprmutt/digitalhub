@@ -13,6 +13,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <!-- Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <style>
       body {
         background: #f8f9fa;
@@ -100,17 +102,28 @@
   </head>
   <body>
     <div class="container py-5 px-3">
-      <h1 class="text-center fw-bold mb-1">HUB Digital Menu</h1>
-      <h5 class="text-center fw-light mb-4">University Information System</h5>
+      <h1 class="text-center fw-bold mb-1" data-aos="fade-down">
+        HUB Digital Menu
+      </h1>
+      <h5 class="text-center fw-light mb-4" data-aos="fade-up">
+        University Information System
+      </h5>
       <ul
         class="nav nav-pills d-flex flex-wrap justify-content-center mb-4"
         id="menuTabs"
         role="tablist"
+        data-aos="zoom-in"
       ></ul>
       <div id="menuContent" class="row g-4 justify-content-center"></div>
     </div>
 
+    <!-- Animate On Scroll -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+      AOS.init({
+        duration: 800, // ระยะเวลา animation
+        once: true, // ให้แสดง animation ครั้งเดียว
+      });
       const typeData = [
         { id: 1, name: "นักศึกษา", color: "#007bff" },
         { id: 2, name: "อาจารย์", color: "#28a745" },
@@ -261,13 +274,13 @@
         menuTabs.innerHTML = "";
 
         const allTab = `<li class="nav-item">
-          <button class="nav-link active btn-filter" data-type="all">ทั้งหมด</button>
+          <button class="nav-link active btn-filter rounded-1" data-type="all">ทั้งหมด</button>
         </li>`;
         menuTabs.insertAdjacentHTML("beforeend", allTab);
 
         typeData.forEach((type) => {
           const tab = `<li class="nav-item">
-            <button class="nav-link btn-filter" style="background:${type.color}" data-type="${type.id}">
+            <button class="nav-link btn-filter rounded-1" style="background:${type.color}" data-type="${type.id}">
               ${type.name}
             </button>
           </li>`;
@@ -275,30 +288,31 @@
         });
       };
 
-      const renderMenu = (typeId) => {
+      const renderMenu = (typeId = "all") => {
         const menuContent = document.getElementById("menuContent");
         menuContent.innerHTML = "";
-
         const filteredData = digitalData.filter(
           (item) => item.active && (typeId === "all" || item.typeId == typeId)
         );
 
-        filteredData.forEach((item) => {
-          const target = item?.target ?? "_blank";
-          const href = item?.link ? `href="${item.link}"` : "";
-          const card = `<div class="col-6 col-md-4">
-            <a ${href} target="${target}" class="text-decoration-none">
-              <div class="card text-center">
-                <img src="${item.image}" class="card-img-top" alt="${item.name}">
-                <div class="card-body">
-                  <h5 class="card-title">${item.name}</h5>
-                  <p class="card-text">${item.description}</p>
-                </div>
-              </div>
-            </a>
-          </div>`;
+        filteredData.forEach((item, index) => {
+          const delay = index * 150; // ค่อยๆ แสดงทีละอัน ทุกๆ 150ms
+          const card = `<div class="col-6 col-md-4" data-aos="fade-up" data-aos-delay="${delay}">
+        <a href="${item.link}" target="_blank" class="text-decoration-none">
+          <div class="card rounded-1 text-center">
+            <img src="${item.image}" class="card-img-top" alt="${item.name}">
+            <div class="card-body">
+              <h5 class="card-title">${item.name}</h5>
+              <p class="card-text">${item.description}</p>
+            </div>
+          </div>
+        </a>
+      </div>`;
           menuContent.insertAdjacentHTML("beforeend", card);
         });
+
+        // รีโหลด AOS เพื่อให้ delay มีผลกับการ์ดใหม่ที่เพิ่มเข้ามา
+        AOS.refresh();
       };
 
       document.addEventListener("DOMContentLoaded", () => {
